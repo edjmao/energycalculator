@@ -7,8 +7,15 @@ class DiscountPowerEasy12(object):
 
     @classmethod
     def calc(cls, kwh):
-        return 20+3.49+(kwh*3.4556+1.83*min(1000,kwh)+14.59*max(0,kwh-1000))/100
+        charge = 28
+        if 0 <= kwh <= 1000:
+            charge += kwh * 0.0104
+        if 1000 < kwh:
+            charge += kwh * 0.1598
+        charge += 3.49
+        charge += kwh * 0.034556
 
+        return charge
 
 class ExpressEnergyQuick12(object):
     company_name = "Express Energy"
@@ -26,26 +33,76 @@ class ExpressEnergyQuick12(object):
         return charge
 
 
-class GexaRightChoice1000Plus12(object):
+class GexaSmartChoice1000Plus12(object):
     company_name = "Gexa Energy"
     plan_name = "Right Choice 1000 Plus 12"
     
     @classmethod
     def calc(cls, kwh):
         charge = 0
-        if kwh <= 500:
-            charge += 39
-        if 500 < kwh < 1000:
-            charge += 99
-        if 1000 <= kwh <= 1500:
-            charge += kwh * 0.028
-        if 1500 < kwh <= 2000:
+        if kwh <= 499:
+            charge += kwh * 0.139
+        if 500 <= kwh <= 1000:
+            charge += 27
+        if 1000 < kwh <= 2000:
             charge += 178
-        if kwh > 2000:
-            charge += kwh * 0.109
+        if kwh >= 2001:
+            charge += kwh * 0.119
 
         return charge
 
+
+class GexaRightChoice1000Plus12(object):
+    company_name = "Gexa Energy"
+    plan_name = "Right Choice 1000 Plus 12"
+
+    @classmethod
+    def calc(cls, kwh):
+        charge = 0
+        if kwh <= 499:
+            charge += kwh * 0.119
+        if 500 <= kwh <= 1000:
+            charge += 27
+        if 1000 < kwh <= 2000:
+            charge += 188
+        if kwh >= 2001:
+            charge += kwh * 0.119
+
+        return charge
+
+
+class GexaRightChoice500Plus12(object):
+    company_name = "Gexa Energy"
+    plan_name = "Right Choice 500 Plus 12"
+
+    @classmethod
+    def calc(cls, kwh):
+        charge = 0
+        if kwh <= 499:
+            charge += 59
+        if 500 <= kwh <= 1000:
+            charge += kwh * 0.0540
+        if 1000 < kwh:
+            charge += kwh * 0.1190
+
+        return charge
+
+class GexaShopperPlus12(object):
+    company_name = "Gexa Energy"
+    plan_name = "Gexa Shopper Plus 12"
+
+    @classmethod
+    def calc(cls, kwh):
+        charge = 0
+        if kwh <= 1000:
+            charge += 16
+        if 1000 < kwh <= 2000:
+            charge += 129
+        if 2000 < kwh:
+            charge += kwh * 0.1190
+        charge += 3.49
+        charge += kwh * 0.0346
+        return charge
 
 class ChampionEnergyChampSaver12(object):
     company_name = "Champion Energy"
@@ -86,6 +143,22 @@ class InfiniteEnergy3MonthSmart(object):
             charge += (kwh-1000) * 0.18
         return charge
 
+class PowerExpressSpringSolstice12(object):
+    company_name = "Power Express"
+    plan_name = "Spring Solstice 12"
+
+    @classmethod
+    def calc(cls, kwh):
+        charge = 18.25
+        charge += 3.49
+        charge += kwh * 0.0346
+
+        if 0 <= kwh <= 1000:
+            charge += kwh * 0.023
+        if 1000 < kwh:
+            charge += kwh * 0.144
+
+        return charge
 
 def printAnnualTable(plans, usage_history):
     plan_sums = [0 for i in range(0, len(plans))]
@@ -100,12 +173,15 @@ def printAnnualTable(plans, usage_history):
 
 if __name__=="__main__":
 
-    plans = [DiscountPowerEasy12,
-             ExpressEnergyQuick12,
-             GexaRightChoice1000Plus12,
-             ChampionEnergyChampSaver12,
-             FirstChoicePowerGreen12,
-             InfiniteEnergy3MonthSmart]
+    plans = [
+        # GexaRightChoice500Plus12,
+        GexaRightChoice1000Plus12,
+        GexaSmartChoice1000Plus12,
+        # GexaShopperPlus12,
+        # DiscountPowerEasy12,
+        # PowerExpressSpringSolstice12,
+        ChampionEnergyChampSaver12,
+         ]
     usage_array = [x for x in range(0, 2500, 100)]
     usage_history = [1000, 851, 818, 785, 986, 1466, 1708, 1233, 1107, 902, 743, 874]
 

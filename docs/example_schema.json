@@ -1,0 +1,33 @@
+{
+  "company_name": "Gexa Energy",
+  "plan_name": "Right Choice 1000 Plus 12",
+  "publish_date": "2018-04-03",
+
+  "energy_charges": {
+    "currency": "USD",
+    "base": 0,
+    "usage_schedule" : [
+      {
+        "lower": 0,
+        "upper": 500,
+        "fixed_charge": 28,
+        "per_kwh_charge": 0
+      },
+      {
+        "lower": 500,
+        "upper": 1000,
+        "fixed_charge": 0,
+        "per_kwh_charge": 0.07
+      },
+      {
+        "lower": 1000,
+        "upper": null,
+        "per_kwh_charge": 0.15
+      }
+    ],
+    "delivery_charges" : {
+      "base": 18.25,
+      "per_kwh" : 0.0345
+    }
+  }
+}
