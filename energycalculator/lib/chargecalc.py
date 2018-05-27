@@ -9,5 +9,7 @@ class ChargeCalculator(object):
         self.plan = plan
 
     def calc(self, kwh):
+        total_charge = 0
         energy_charge = self.plan.energy_charges
-        return None
+        total_charge += energy_charge.base
+        return total_charge

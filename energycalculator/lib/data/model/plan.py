@@ -1,21 +1,23 @@
-from pymodm import MongoModel, fields, EmbeddedMongoModel
+from mongoengine import Document, StringField, DateTimeField, IntField, ListField, EmbeddedDocumentField, \
+    EmbeddedDocument, DecimalField
 
 
-class Plan(MongoModel):
-    company_name = fields.CharField()
-    plan_name = fields.CharField()
-    publish_date = fields.DateTimeField()
-    currency = fields.CharField()
+class UsageSchedule(EmbeddedDocument):
+    lower = IntField()
+    upper = IntField()
+    fixed_charge = IntField()
+    per_kwh_charge = DecimalField()
 
-    energy_charges = fields.EmbeddedDocumentField("Charges")
-    delivery_charges = fields.EmbeddedDocumentField("Charges")
 
-class Charges(EmbeddedMongoModel):
-    base = fields.IntegerField()
-    usage_schedule = fields.EmbeddedDocumentListField("UsageSchedule")
+class Charges(EmbeddedDocument):
+    base = IntField()
+    usage_schedule = ListField(EmbeddedDocumentField(UsageSchedule))
 
-class UsageSchedule(EmbeddedMongoModel):
-    lower = fields.IntegerField()
-    upper = fields.IntegerField()
-    fixed_charge = fields.IntegerField()
-    per_kwh_charge = fields.Decimal128Field()
+
+class Plan(Document):
+    company_name = StringField()
+    plan_name = StringField()
+    publish_date = DateTimeField()
+    currency = StringField()
+    energy_charges = EmbeddedDocumentField(Charges)
+    delivery_charges = EmbeddedDocumentField(Charges)
