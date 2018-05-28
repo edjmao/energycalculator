@@ -27,17 +27,15 @@ class ChargeCalculator(object):
                 schedule_charge += schedule.per_kwh_charge * kwh
             return schedule_charge
 
-        total_charge = 0
-        energy_charge = self.plan.energy_charges
-        delivery_charge = self.plan.delivery_charges
-        if energy_charge:
-            if energy_charge.base is not None:
-                total_charge += energy_charge.base
-            total_charge += sum(map(_calc_charge, list(filter(_filter_schedule, energy_charge.usage_schedule))))
+        def _calc_charges(charge):
+            calc_charge = 0
+            if charge:
+                if charge.base is not None:
+                    calc_charge += charge.base
+                calc_charge += sum(map(_calc_charge, list(filter(_filter_schedule, charge.usage_schedule))))
+            return calc_charge
 
-        if delivery_charge:
-            if delivery_charge.base is not None:
-                total_charge += delivery_charge.base
-            total_charge += sum(map(_calc_charge, list(filter(_filter_schedule, delivery_charge.usage_schedule))))
+        total_charge = 0
+        total_charge += _calc_charges(self.plan.energy_charges) + _calc_charges(self.plan.delivery_charges)
 
         return total_charge
