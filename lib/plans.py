@@ -17,6 +17,7 @@ class DiscountPowerEasy12(object):
 
         return charge
 
+
 class ExpressEnergyQuick12(object):
     company_name = "Express Energy"
     plan_name = "Quick 12"
@@ -87,6 +88,7 @@ class GexaRightChoice500Plus12(object):
 
         return charge
 
+
 class GexaShopperPlus12(object):
     company_name = "Gexa Energy"
     plan_name = "Gexa Shopper Plus 12"
@@ -103,6 +105,7 @@ class GexaShopperPlus12(object):
         charge += 3.49
         charge += kwh * 0.0346
         return charge
+
 
 class ChampionEnergyChampSaver12(object):
     company_name = "Champion Energy"
@@ -143,6 +146,7 @@ class InfiniteEnergy3MonthSmart(object):
             charge += (kwh-1000) * 0.18
         return charge
 
+
 class PowerExpressSpringSolstice12(object):
     company_name = "Power Express"
     plan_name = "Spring Solstice 12"
@@ -160,7 +164,8 @@ class PowerExpressSpringSolstice12(object):
 
         return charge
 
-def printAnnualTable(plans, usage_history):
+
+def print_annual_table(plans, usage_history):
     plan_sums = [0 for i in range(0, len(plans))]
     for (month, usage) in zip(calendar.month_abbr[1:], usage_history):
         line = "{} ({:>4}):".format(month, usage)
@@ -190,7 +195,7 @@ if __name__=="__main__":
         line += "".join([" {:>7.2f}".format(plan.calc(usage)) for plan in plans])
         print(line)
 
-    printAnnualTable(plans, usage_history)
-    printAnnualTable(plans, [usage + 100 for usage in usage_history])
-    printAnnualTable(plans, [usage + 200 for usage in usage_history])
-    printAnnualTable(plans, [usage - 100 for usage in usage_history])
+    print_annual_table(plans, usage_history)
+    print_annual_table(plans, [usage + 100 for usage in usage_history])
+    print_annual_table(plans, [usage + 200 for usage in usage_history])
+    print_annual_table(plans, [usage - 100 for usage in usage_history])

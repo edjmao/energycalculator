@@ -1,5 +1,6 @@
 import logging
 
+
 class ChargeCalculator(object):
     """Charge calculator
 
@@ -11,10 +12,10 @@ class ChargeCalculator(object):
 
     def calc(self, kwh):
         def _filter_schedule(schedule):
-            if(schedule.lower is None):
+            if schedule.lower is None:
                 logging.warning("Schedule has a None lower kWh limit")
                 return False
-            if (schedule.upper is None):
+            if schedule.upper is None:
                 return schedule.lower <= kwh
             return schedule.lower <= kwh < schedule.upper
 
